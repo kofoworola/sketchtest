@@ -1,5 +1,6 @@
-package rect
+package canvas
 
+// todo move to canvas
 type Rectangle struct {
 	StartX int
 	StartY int
