@@ -1,22 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"os"
+
+	"github.com/kofoworola/sketchtest/canvas"
+)
 
 func main() {
-	fmt.Println("init")
-}
+	canv := canvas.NewCanvas(
+		canvas.NewFill([2]int{0, 0}, "-"),
+		canvas.NewRectangle([2]int{15, 0}, 7, 6, "", "."),
+		canvas.NewRectangle([2]int{0, 3}, 8, 4, "O", ""),
+		canvas.NewRectangle([2]int{5, 5}, 5, 3, "x", "x"),
+	)
 
-func drawRectangle(width, height int, outline, fill rune) {
-	art := make([][]rune, 0)
-	for x := 0; x < height; x++ {
-		//first line
-		line = make([]rune, width)
-		if x == 0 {
-			for i, v := range line{
-				line[i]  =
-			}
-		}
-
-	}
-	art = append(art, )
+	canv.Draw(os.Stdout)
 }

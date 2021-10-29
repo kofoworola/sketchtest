@@ -26,6 +26,8 @@ func NewRectangle(start [2]int, width, height int, outline, fill string) *Rectan
 	}
 }
 
+func (r *Rectangle) Type() operationType { return typeRectangle }
+
 func (r *Rectangle) EndCoord() (x, y int) { return r.endX, r.endY }
 
 // Pixel checks if the point is in the rectangle and returns the rune to be drawn at that point
