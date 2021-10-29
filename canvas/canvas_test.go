@@ -5,7 +5,7 @@ import (
 )
 
 func TestCanvasInit(t *testing.T) {
-	rects := []operation{
+	rects := []Operation{
 		NewRectangle([2]int{1, 1}, 3, 3, "x", "o"),
 		NewRectangle([2]int{1, 2}, 2, 4, "x", "o"),
 	}

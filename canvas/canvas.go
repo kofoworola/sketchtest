@@ -13,19 +13,19 @@ const (
 )
 
 type Canvas struct {
-	operations []operation
+	operations []Operation
 
 	endX int
 	endY int
 }
 
-type operation interface {
+type Operation interface {
 	Type() operationType
 	Pixel(int, int) string
 	EndCoord() (int, int)
 }
 
-func NewCanvas(operations ...operation) *Canvas {
+func NewCanvas(operations ...Operation) *Canvas {
 	canvas := Canvas{operations: operations}
 
 	// find endX and endY

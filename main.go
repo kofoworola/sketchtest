@@ -1,18 +1,13 @@
 package main
 
 import (
-	"os"
-
-	"github.com/kofoworola/sketchtest/canvas"
+	"log"
+	"net/http"
 )
 
 func main() {
-	canv := canvas.NewCanvas(
-		canvas.NewFill([2]int{0, 0}, "-"),
-		canvas.NewRectangle([2]int{15, 0}, 7, 6, "", "."),
-		canvas.NewRectangle([2]int{0, 3}, 8, 4, "O", ""),
-		canvas.NewRectangle([2]int{5, 5}, 5, 3, "x", "x"),
-	)
-
-	canv.Draw(os.Stdout)
+	http.HandleFunc("/draw", drawHandler)
+	if err := http.ListenAndServe(":8085", nil); err != nil {
+		log.Fatal(err)
+	}
 }
