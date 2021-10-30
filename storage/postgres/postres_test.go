@@ -12,7 +12,7 @@ var _testStorage *Storage
 
 func TestMain(m *testing.M) {
 	var cfg Config
-	if err := envconfig.Process("", &cfg); err != nil {
+	if err := envconfig.Process("POSTGRES", &cfg); err != nil {
 		log.Fatalf("error setting up config: %v", err)
 	}
 

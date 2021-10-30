@@ -49,6 +49,9 @@ func NewCanvas(operations ...Operation) *Canvas {
 	return &canvas
 }
 
+// Draw draws on the write. It draws by going to each point in the canvas size
+// then running through the operations (in order of submission), then using the value returned
+// by the Pixel function of each operation
 func (c *Canvas) Draw(writer io.Writer) error {
 	var builder strings.Builder
 	for y := 0; y <= c.endY; y++ {

@@ -64,6 +64,7 @@ func (h *Handler) drawHandler(w http.ResponseWriter, req *http.Request) {
 
 }
 
+// getCanvasFromBody gets the canvas data from the passed body and validates it
 func (h *Handler) getCanvasFromBody(body []byte) (*canvasReq, error) {
 	var canvas canvasReq
 	if err := json.Unmarshal(body, &canvas); err != nil {
@@ -75,6 +76,7 @@ func (h *Handler) getCanvasFromBody(body []byte) (*canvasReq, error) {
 	return &canvas, nil
 }
 
+// getCanvasFromStorage gets the canvas data from the postgres db
 func (h *Handler) getCanvasFromStorage(ctx context.Context, id string) (*canvasReq, error) {
 	canvas, err := h.store.GetCanvasById(ctx, id)
 	if err != nil {
