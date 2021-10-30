@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"net/http"
 	"os"
@@ -9,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/golang-migrate/migrate/v4"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/kofoworola/sketchtest/storage/postgres"
 )
@@ -28,7 +30,10 @@ func main() {
 
 	storage, err := postgres.New(&cfg.Postgres)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("error starting storage: %v", err)
+	}
+	if err := storage.Migrate(); err != nil && errors.Is(migrate.ErrNoChange, err) {
+		log.Fatalf("error migrating: %v", err)
 	}
 
 	server := http.Server{

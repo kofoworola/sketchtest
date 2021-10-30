@@ -1,16 +1,26 @@
 version: '3'
 
-services:    
-  mongodb:
-    image: "mongo:5.0.3"
+services:
+  web:
+    build: .
+    depends_on: 
+      - postgres
     environment:
-      MONGO_INITDB_ROOT_USERNAME: "mongo"
-      MONGO_INITDB_ROOT_PASSWORD: "secret"
-      MONGO_INITDB_DATABASE: "mongo"
+      PORT: "80"
+      POSTGRES_PORT: "5432"
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PASSWORD: "password"
     ports:
-      - "27017:27017"
+      - "8080:80"
+
+  postgres:
+    image: "postgres:13"
+    environment:
+      POSTGRES_PASSWORD: "password"
+    ports:
+      - "54320:5432"
     volumes:
-      - sketch_data:/data/db
+      - sketch_data:/var/lib/postgresql/data
 
 volumes:
   sketch_data:
