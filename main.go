@@ -10,10 +10,13 @@ import (
 	"time"
 
 	"github.com/kelseyhightower/envconfig"
+	"github.com/kofoworola/sketchtest/storage/postgres"
 )
 
 type Config struct {
 	Port string `default:"8080"`
+
+	Postgres postgres.Config
 }
 
 func main() {
@@ -23,9 +26,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-	http.HandleFunc("/draw", drawHandler)
+	storage, err := postgres.New(&cfg.Postgres)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	server := http.Server{
-		Addr:        ":" + cfg.Port,
+		Addr: ":" + cfg.Port,
+		Handler: &Handler{
+			store: storage,
+		},
 		ReadTimeout: time.Second * 10,
 	}
 

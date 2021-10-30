@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -8,7 +9,25 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/kofoworola/sketchtest/canvas"
+	"github.com/kofoworola/sketchtest/storage"
 )
+
+type Handler struct {
+	store canvasStorage
+}
+
+func (h *Handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	if req.RequestURI == "/canvas" {
+		h.drawHandler(w, req)
+		return
+	}
+	w.WriteHeader(http.StatusNotFound)
+}
+
+// use an interface in case of mock storage
+type canvasStorage interface {
+	CreateCanvas(ctx context.Context, input storage.Canvas) (*storage.Canvas, error)
+}
 
 type inputBody struct {
 	Rectangles []rectangle `json:"rectangles"`
@@ -30,7 +49,7 @@ type fill struct {
 	Character string `json:"character"`
 }
 
-func drawHandler(w http.ResponseWriter, req *http.Request) {
+func (h *Handler) drawHandler(w http.ResponseWriter, req *http.Request) {
 	defer req.Body.Close()
 	if req.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
